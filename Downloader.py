@@ -1,9 +1,10 @@
 #! /usr/bin/env python3
 
-from pytube import YouTube
 import sys
 import os
 from time import sleep
+from pytube import YouTube
+from pytube import exceptions
 
 def Loading():
     for c in range(1,4):
@@ -16,7 +17,7 @@ def DownloadOption():
     print('''Download Options
 
     [0] => Video
-    [1] => Audio
+    [1] => Áudio
     ''')
     option = int(input("Download Option: "))
 
@@ -26,15 +27,16 @@ def DownloadOption():
     
     if option == 0:
         while True:
-            GetVideo()
+            GetVideo(SetVideo())
     else:
         while True:
-            GetAudio()
+            GetAudio(SetVideo())
 
 def FilePath():
     global file_path
-    file_path = str(input("\nDiretório de Download: "))
+    file_path = str(input("\n\nDiretório de Download: "))
     home = os.getenv("HOME") + "/"
+    dir_default_download = home + "/Downloads/yt-dwl"
     directorys = file_path.split("/")
 
     if "~" in directorys:
@@ -42,27 +44,40 @@ def FilePath():
         strDire = "/".join(directorys)
         file_path = home + strDire
 
-    if len(file_path) == 0:
-        file_path = os.getenv("HOME") + "/Downloads"
+    if len(file_path) == 0:    
+        if not os.path.exists(dir_default_download):
+            os.makedirs(dir_default_download)
+        file_path = dir_default_download
     
     if os.path.isdir(file_path) == False:
-        print("\nDiretório inexistente, tente novamente\n")
+        print("\nDiretório inexistente\n")
         FilePath()   
 
-def GetVideo():
+    print("\n\033[1;33m[WARNING] \033[1;37mDiretório salvo para essa sessão\n")
+
+def SetVideo():
     url = str(input("\nLink do vídeo: "))
-    video = YouTube(url, on_progress_callback=BarDownloadProgress)
-    FilePath()
-    titulo = video.title
+
+    try:
+        global video
+        video = YouTube(url, on_progress_callback=BarDownloadProgress)
+    except exceptions.RegexMatchError:
+        print("\n\033[1;31m[ERROR]\033[1;37m link inválido")
+        SetVideo()
+    except exceptions.VideoUnavailable:
+        print("\n\033[1;31m[ERROR]\033[1;37m Video indisponível") 
+        SetVideo()
+
+    titulo = video.title 
+    return titulo
+
+def GetVideo(titulo):
     global stream
     stream = video.streams.get_highest_resolution()
+    print("\n\033[1;33m[WARNING] \033[1;37mBaixando o vídeo na melhor resolução\n")
     Download(file_path, titulo, ".mp4")
 
-def GetAudio():
-    url = str(input("\nLink do vídeo: "))
-    video = YouTube(url, on_progress_callback=BarDownloadProgress)
-    FilePath()
-    titulo = video.title
+def GetAudio(titulo):
     global stream
     stream = video.streams.get_audio_only()
     Download(file_path, titulo, ".mp3")
@@ -76,8 +91,18 @@ def BarDownloadProgress(chunk, file_handle, bytes_remaining):
     sys.stdout.write('↳ |{bar}| {percent}%\r'.format(bar=status, percent=percent))
     sys.stdout.flush()
 
-def Download(file_path, titulo, extension):
-        print("\n\033[1;33m[WARNING] \033[1;37mBaixando o vídeo na melhor resolução\n")
-        print(f"Downloading: {titulo}\n")
-        stream.download(file_path, titulo+extension)
-        print("\n\n\033[1;32mDownload finalizado\033[1;37m\n")
+def Download(dir_path, titulo, extension):
+    titulo = titulo.replace(" ", "")
+    file = titulo+extension
+    file_path = f"{dir_path}/{file}"
+
+    while os.path.exists(file_path):
+        print("\n\033[1;31m[ERROR]\033[1;37m Nome de arquivo já existente nesse diretório\n")
+        titulo = str(input("Nome do arquivo: "))
+        file = titulo+extension
+        file_path = f"{dir_path}/{file}"
+
+    print(f"\nDownloading: {file}")
+    stream.download(dir_path, file)
+    print(f"\n\n\033[1;32mDownload Concluido => {file_path}\033[1;37m\n")
+    
