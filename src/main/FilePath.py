@@ -13,9 +13,6 @@ class FilePath:
             self.strDire = "/".join(self.directorys)
             self.dir_path = self.home + self.strDire
 
-        if self.dir_path == "dev":
-            self.dir_path = "/home/rodf/Prog/Projetos/Python/yt-dwl/DwlTest"
-
         if len(self.dir_path) == 0:    
             if not os.path.exists(self.dir_default_download):
                 os.makedirs(self.dir_default_download)

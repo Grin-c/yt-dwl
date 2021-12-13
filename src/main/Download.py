@@ -6,9 +6,6 @@ import os
 from pytube import YouTube
 from pytube import exceptions
 
-from SetVideo import PickVideo
-
-
 def BarDownloadProgress(chunk, file_handle, bytes_remaining):
         filesize = stream.filesize
         current = ((filesize - bytes_remaining)/filesize)
