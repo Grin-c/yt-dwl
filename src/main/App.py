@@ -1,10 +1,16 @@
-from Download import Loading
+import sys
+from time import sleep
+
 from Download import FilePath
 from Download import SetVideo
-from Download import GetVideo
-from Download import GetAudio
+from Download import DownloadVideo
+from Download import DownloadAudio
 
-Loading()
+for c in range(1,4):
+        ponto = "." * c
+        sys.stdout.write(f"\033[1;37mLoading{ponto}\r")
+        sys.stdout.flush()
+        sleep(0.25)
 
 print('''Download Options
 
@@ -17,11 +23,11 @@ if option < 0 or option > 1:
     print("\nNúmero inválido tente novamente\n")
     DownloadOption()
 
-FilePath()
+dir_path = FilePath()
 
 if option == 0:
     while True:
-        GetVideo(SetVideo())
+        DownloadVideo(dir_path, SetVideo())
 else:
     while True:
-        GetAudio(SetVideo())
+        DownloadAudio(dir_path, SetVideo())
