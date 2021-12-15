@@ -1,60 +1,27 @@
-import sys
-from time import sleep
-from Download import Download
-from Download import SetUrl
-from FilePath import FilePath
-
-def Loading():
-    for c in range(1,4):
-        ponto = "." * c
-        sys.stdout.write(f"\033[1;37mLoading{ponto}\r")
-        sys.stdout.flush()
-        sleep(0.25)
-
-def DownloadType():
-    print('''\nDownload Options
-
-        [0] => Video
-        [1] => Áudio
-    ''')
-    option = int(input("Download Option: "))
-
-    if option < 0 or option > 1:
-        print("\nNúmero inválido \n")
-        Option()
-    
-    if option == 0:
-        cfg_download = {
-            "option"    : 0,
-            "extension" : ".mp4"
-        }
-    elif option == 1:
-        cfg_download = {
-            "option"    : 1,
-            "extension" : ".mp3"
-        }
-    else:
-        print("\nOpção Inválida \n")
-        Option()
-
-    return cfg_download
+from Download import Loading
+from Download import FilePath
+from Download import SetVideo
+from Download import GetVideo
+from Download import GetAudio
 
 Loading()
 
-dir_path = FilePath().VerifyPath()
+print('''Download Options
 
-cfg_download = DownloadType()
-option = cfg_download["option"]
-extension = cfg_download["extension"]
+[0] => Video
+[1] => Áudio
+''')
+option = int(input("Download Option: "))
 
-while True:
+if option < 0 or option > 1:
+    print("\nNúmero inválido tente novamente\n")
+    DownloadOption()
 
-    SetUrl()
+FilePath()
 
-    Download(dir_path, extension).ManageName()
-
-    if int(option) == 0:
-        Download(dir_path, extension).DownloadVideo()
-
-    else:
-        Download(dir_path, extension).DownloadAudio()
+if option == 0:
+    while True:
+        GetVideo(SetVideo())
+else:
+    while True:
+        GetAudio(SetVideo())
