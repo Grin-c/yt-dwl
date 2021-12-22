@@ -43,11 +43,20 @@ def SetVideo():
         exit()
 
     titulo = video.title 
+    titulo_split = titulo.split()
     lTitulo = []
 
-    for c in range(0, len(titulo.split())):
-        lTitulo.append(titulo.split()[c].capitalize())
-    titulo = " ".join(lTitulo)
+    for c in range(len(titulo_split)):
+        letras = list(titulo_split[c])
+        for d in range(len(letras)):
+            if letras[d] == "/" or letras[d] == "'/'":
+                pass
+            else:
+                lTitulo.append(letras[d])
+        lTitulo.append(" ")
+
+    titulo = "".join(lTitulo)
+    titulo = titulo.rstrip()
     
     return titulo
 
