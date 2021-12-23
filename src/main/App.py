@@ -1,10 +1,12 @@
+#! /usr/bin/env python3
+
 import sys
 from time import sleep
 
-from Download import FilePath
 from Download import SetVideo
 from Download import DownloadVideo
 from Download import DownloadAudio
+from DirPath import DirPath
 
 for c in range(1,4):
         ponto = "." * c
@@ -23,7 +25,7 @@ if option < 0 or option > 1:
     print("\nNúmero inválido tente novamente\n")
     DownloadOption()
 
-dir_path = FilePath()
+dir_path = DirPath().SetDir()
 
 if option == 0:
     while True:

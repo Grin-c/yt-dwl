@@ -5,30 +5,6 @@ import os
 from pytube import YouTube
 from pytube import exceptions
 
-def FilePath():
-    file_path = str(input("\nDiretório Para o Download: "))
-    home = os.getenv("HOME") + "/"
-    dir_default_download = home + "/Downloads/yt-dwl"
-    directorys = file_path.split("/")
-
-    if "~" in directorys:
-        directorys = directorys[1:len(directorys)]
-        strDire = "/".join(directorys)
-        file_path = home + strDire
-
-    if len(file_path) == 0:    
-        if not os.path.exists(dir_default_download):
-            os.makedirs(dir_default_download)
-
-        file_path = dir_default_download
-        print(f"\n\033[1;33m[WARNING] \033[1;37mDiretório de Download Definido Para: {file_path} ")
-    
-    if os.path.isdir(file_path) == False:
-        print("\n\033[1;31m[ERROR]\033 Diretório Inexistente\n")
-        exit()
-
-    return file_path 
-
 def SetVideo():
     url = str(input("\nLink do vídeo: "))
 
