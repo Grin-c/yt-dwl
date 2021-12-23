@@ -5,6 +5,7 @@ import os
 from pytube import YouTube
 from pytube import exceptions
 
+# Definindo o vídeo
 def SetVideo():
     url = str(input("\nLink do vídeo: "))
 
@@ -18,6 +19,7 @@ def SetVideo():
         print("\n\033[1;31m[ERROR]\033[1;37m Video indisponível") 
         exit()
 
+    # Formatando o título
     titulo = video.title 
     titulo_split = titulo.split()
     lTitulo = []
@@ -36,6 +38,7 @@ def SetVideo():
     
     return titulo
 
+# Barra de progresso para o download
 def BarDownloadProgress(chunk, file_handle, bytes_remaining):
     filesize = stream.filesize
     current = ((filesize - bytes_remaining)/filesize)
@@ -45,6 +48,7 @@ def BarDownloadProgress(chunk, file_handle, bytes_remaining):
     sys.stdout.write('↳ |{bar}| {percent}%\r'.format(bar=status, percent=percent))
     sys.stdout.flush()
 
+# Baixando o vídeo
 def DownloadVideo(dir_path, titulo):
     file_path = f"{dir_path}/{titulo+'.mp4'}"
 
@@ -61,6 +65,7 @@ def DownloadVideo(dir_path, titulo):
     stream.download(dir_path)
     print(f"\n\n\033[1;32mDownload Concluido => {file_path}\033[1;37m\n")
 
+# Baixando o audio
 def DownloadAudio(dir_path, titulo):
     file_path = f"{dir_path}/{titulo+'.mp3'}"
     file_path_orig = f"{dir_path}/{titulo}"
