@@ -2,11 +2,8 @@
 
 import sys
 from time import sleep
-
-from Download import SetVideo
-from Download import DownloadVideo
-from Download import DownloadAudio
-from DirPath import DirPath
+from src.main.Download import Download
+from src.main.DirPath import DirPath
 
 # Animação de Loading
 for c in range(1,4):
@@ -20,20 +17,23 @@ print('''Download Options
 [0] => Video
 [1] => Áudio
 ''')
-option = int(input("Download Option: "))
+opt = int(input("Download Option: "))
 
 # Verificando se a opção é valida
-if option < 0 or option > 1:
-    print("\nNúmero inválido tente novamente\n")
-    DownloadOption()
+if opt < 0 or opt > 1:
+    print("\n\033[1;31m[ERROR]\033[1;37m Número inválido\n")
+    exit()
 
 # Definindo diretório
 dir_path = DirPath().SetDir()
 
 # Baixando o formato do vídeo de acordo com a opção
-if option == 0:
-    while True:
-        DownloadVideo(dir_path, SetVideo())
-else:
-    while True:
-        DownloadAudio(dir_path, SetVideo())
+while True:
+    url = str(input("URL do vídeo: "))
+    download = Download(url, dir_path)
+    download.SetVideo()
+
+    if opt == 0:
+        download.DownloadVideo()
+    else:
+        download.DownloadAudio()
