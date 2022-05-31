@@ -6,7 +6,7 @@ class DirPath:
     def __init__(self):
         self.dir_path = str(input("\nDiretório Para o Download: "))
         self.home = os.getenv("HOME") + "/"
-        self.dir_default_download = self.home + "/Downloads/yt-dwl"
+        self.dir_default_download = self.home + "Downloads/yt-dwl"
         self.directorys = self.dir_path.split("/")
 
     def SetDir(self):

@@ -30,7 +30,7 @@ try:
 
     # Baixando o formato do vídeo de acordo com a opção
     while True:
-        url = str(input("URL do vídeo: "))
+        url = str(input("\nURL do vídeo: "))
         download = Download(url, dir_path)
         download.SetVideo()
 
