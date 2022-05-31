@@ -2,8 +2,8 @@
 
 import sys
 from time import sleep
-from src.main.Download import Download
-from src.main.DirPath import DirPath
+from src.main.download import Download
+from src.main.dir_path import DirPath
 
 try: 
     # Loading Animation
