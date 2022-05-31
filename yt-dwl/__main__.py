@@ -6,35 +6,35 @@ from src.main.Download import Download
 from src.main.DirPath import DirPath
 
 try: 
-    # Animação de Loading
+    # Loading Animation
     for c in range(1,4):
-            ponto = "." * c
-            sys.stdout.write(f"\033[1;37mLoading{ponto}\r")
+            dot = "." * c
+            sys.stdout.write(f"\033[1;37mLoading{dot}\r")
             sys.stdout.flush()
             sleep(0.25)
 
     print('''Download Options
 
     [0] => Video
-    [1] => Áudio
+    [1] => Audio
     ''')
-    opt = int(input("Download Option: "))
+    option = int(input("Download Option: "))
 
-    # Verificando se a opção é valida
-    if opt < 0 or opt > 1:
-        print("\n\033[1;31m[ERROR]\033[1;37m Número inválido\n")
+    # Checking if the option is valid
+    if option < 0 or option > 1:
+        print("\n\033[1;31m[ERROR]\033[1;37m Invalid number\n")
         exit()
 
-    # Definindo diretório
+    # Defining directory
     dir_path = DirPath().SetDir()
 
-    # Baixando o formato do vídeo de acordo com a opção
+    # Downloading video format according to option
     while True:
-        url = str(input("\nURL do vídeo: "))
+        url = str(input("\nVideo URL: "))
         download = Download(url, dir_path)
         download.SetVideo()
 
-        if opt == 0:
+        if option == 0:
             download.DownloadVideo()
         else:
             download.DownloadAudio()
